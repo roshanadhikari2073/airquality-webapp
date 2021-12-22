@@ -14,7 +14,7 @@ type Welcome struct {
 
 func main() {
 	welcome := Welcome{"Anonymous", time.Now().Format(time.Stamp)}
-	templates := template.Must(template.ParseFiles("templates/welcome-template.html"))
+	templates := template.Must(template.ParseFiles("template/mainview.html"))
 	http.Handle("/myPath/",
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
@@ -22,7 +22,7 @@ func main() {
 		if name := r.FormValue("name"); name != "" {
 			welcome.Name = name
 		}
-		if err := templates.ExecuteTemplate(w, "welcome-template.html", welcome); err != nil {
+		if err := templates.ExecuteTemplate(w, "mainview.html", welcome); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
