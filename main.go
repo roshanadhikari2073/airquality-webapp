@@ -13,11 +13,9 @@ type Welcome struct {
 }
 
 func main() {
-	welcome := Welcome{"Anonymous", time.Now().Format(time.Stamp)}
+	welcome := Welcome{"Roshan", time.Now().Format(time.Stamp)}
 	templates := template.Must(template.ParseFiles("template/mainview.html"))
-	http.Handle("/myPath/",
-		http.StripPrefix("/static/",
-			http.FileServer(http.Dir("static"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if name := r.FormValue("name"); name != "" {
 			welcome.Name = name
