@@ -1,6 +1,7 @@
 package main
 
 import (
+	"airquality-webapp/manualapi"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -13,6 +14,12 @@ type Welcome struct {
 }
 
 func main() {
+	srv := manualapi.NewServer()
+	http.ListenAndServe(":8000", nil)
+
+}
+
+func othermain() {
 	welcome := Welcome{"Roshan", time.Now().Format(time.Stamp)}
 	templates := template.Must(template.ParseFiles("template/mainview.html"))
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))

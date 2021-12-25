@@ -1,7 +1,7 @@
 // Author:- Roshan Adhikari
 // This function is created for the generic web server creation and gorilla mux is used for the other functionality
 
-package server
+package manualapi
 
 import (
 	"encoding/json"
@@ -26,7 +26,15 @@ func NewServer() *Server {
 		Router:        mux.NewRouter(),
 		shoppingItems: []Item{},
 	}
+	s.routes()
 	return s
+}
+
+//routers
+func (s *Server) routes() {
+	s.HandleFunc("/shopping-items", s.listShoppingItem()).Methods("GET")
+	s.HandleFunc("/shopping-items", s.createShoppingItem()).Methods("POST")
+	s.HandleFunc("/shopping-items/{id}", s.removeShoppingItem()).Methods("DELETE")
 }
 
 func (s *Server) createShoppingItem() http.HandlerFunc {
@@ -46,6 +54,29 @@ func (s *Server) createShoppingItem() http.HandlerFunc {
 	}
 }
 
-func (s *Server) createAndListShoppingItem() http.HandlerFunc {
+//list shopping items
+func (s *Server) listShoppingItem() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := json.NewEncoder(w).Encode(s.shoppingItems); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+}
 
+//remove shopping items
+func (s *Server) removeShoppingItem() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		idrStr := mux.Vars(r)["id"]
+		id, err := uuid.Parse(idrStr)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+		}
+		for i, item := range s.shoppingItems {
+			if item.Id == id {
+				s.shoppingItems = append(s.shoppingItems[:i], s.shoppingItems[i+1:]...)
+				break
+			}
+		}
+	}
 }
