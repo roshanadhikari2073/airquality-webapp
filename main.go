@@ -1,3 +1,6 @@
+// Author : Roshan Adhikari
+// This repo is to test the webserver in th Golang, there are bogus and boilerplates in the code
+
 package main
 
 import (
@@ -13,12 +16,14 @@ type Welcome struct {
 	Time string
 }
 
+// the added function is setup for the external api to use in the webserver
 func main() {
 	srv := manualapi.NewServer()
 	http.ListenAndServe(":8000", nil)
 
 }
 
+//the othermain function acts as the alternative web server
 func othermain() {
 	welcome := Welcome{"Roshan", time.Now().Format(time.Stamp)}
 	templates := template.Must(template.ParseFiles("template/mainview.html"))
