@@ -1,0 +1,14 @@
+### list shopping items
+
+GET http://localhost:8080/shopping-items
+
+### create shopping items
+POST http://localhost:8080/shopping-items
+Content-Type: application/json
+
+{
+    "name":"Roshan"
+}
+
+### remove shopping items - UUID needs the uuid code that was generated --> use GET request to pull the item
+DELETE  http://localhost:8080/shopping-items/uuid
