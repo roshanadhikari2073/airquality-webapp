@@ -4,7 +4,7 @@
 package main
 
 import (
-	"airquality-webapp/manualapi"
+	manualapi "httpserverapi/api"
 	"fmt"
 	"html/template"
 	"net/http"
