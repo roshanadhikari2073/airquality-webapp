@@ -23,6 +23,15 @@ func main() {
 
 }
 
+// testing other kind of server
+func testserv() {
+	http.HandleFunc("/hello-world", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("hello world"))
+	})
+	http.ListenAndServe(":8081", nil)
+}
+
+
 //the othermain function acts as the alternative web server
 func othermain() {
 	welcome := Welcome{"Roshan", time.Now().Format(time.Stamp)}
@@ -36,5 +45,5 @@ func othermain() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
-	fmt.Println(http.ListenAndServe(":8080", nil))
+	fmt.Println(http.ListenAndServe(":8082", nil))
 }
